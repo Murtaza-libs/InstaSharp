@@ -30,28 +30,16 @@ namespace InstaSharp.Sample.Mvc.Controllers
         public ActionResult Login()
         {
             var scopes = new List<OAuth.Scope>();
-            scopes.Add(InstaSharp.OAuth.Scope.Likes);
+            scopes.Add(InstaSharp.OAuth.Scope.Basic);
+            scopes.Add(InstaSharp.OAuth.Scope.Public_Content);
+            scopes.Add(InstaSharp.OAuth.Scope.Follower_List);
             scopes.Add(InstaSharp.OAuth.Scope.Comments);
+            scopes.Add(InstaSharp.OAuth.Scope.Relationships);
+            scopes.Add(InstaSharp.OAuth.Scope.Likes);
 
             var link = InstaSharp.OAuth.AuthLink(config.OAuthUri + "authorize", config.ClientId, config.RedirectUri, scopes, InstaSharp.OAuth.ResponseType.Code);
 
             return Redirect(link);
-        }
-
-        public async Task<ActionResult> MyFeed()
-        {
-            var oAuthResponse = Session["InstaSharp.AuthInfo"] as OAuthResponse;
-
-            if (oAuthResponse == null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            var users = new Endpoints.Users(config, oAuthResponse);
-
-            var feed = await users.Feed(null, null, null);
-
-            return View(feed.Data);
         }
 
         public async Task<ActionResult> OAuth(string code)

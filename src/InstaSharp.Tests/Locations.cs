@@ -36,14 +36,6 @@ namespace InstaSharp.Tests
             Assert.IsTrue(result.Data.Count > 0);
         }
 
-        [TestMethod, TestCategory("Locations")]
-        public async Task SearchFourSquareV2()
-        {
-            var result = await locations.Search("40b52f80f964a52052001fe3", Endpoints.Locations.FoursquareVersion.Two);
-            Assert.AreEqual(result.Data.Count, 1);
-            Assert.AreEqual(result.Data.Single().Name, "Microsoft");
-        }
-
         [TestMethod, TestCategory("Locations.Search")]
         public async Task SearchFacebookPlaces()
         {
